@@ -16,7 +16,7 @@ describe('angularjs homepage todo list', function() {
   });
 });
 
-
+/*
 describe('home page', function() {
   it('should get correct title', function() {
 
@@ -26,3 +26,5 @@ describe('home page', function() {
     });
   });
 });
+*/
+
