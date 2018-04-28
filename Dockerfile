@@ -1,5 +1,5 @@
 FROM node:6.9.4-slim
-MAINTAINER j.ciolek@webnicer.com
+# MAINTAINER j.ciolek@webnicer.com
 WORKDIR /tmp
 COPY webdriver-versions.js ./
 ENV CHROME_PACKAGE="google-chrome-stable_59.0.3071.115-1_amd64.deb" NODE_PATH=/usr/local/lib/node_modules:/protractor/node_modules
@@ -17,10 +17,27 @@ RUN npm install -g protractor@4.0.14 minimist@1.2.0 && \
     rm -rf /var/lib/apt/lists/* \
     rm ${CHROME_PACKAGE} && \
     mkdir /protractor
-COPY protractor.sh /
+# COPY protractor.sh /
 COPY environment /etc/sudoers.d/
 # Fix for the issue with Selenium, as described here:
 # https://github.com/SeleniumHQ/docker-selenium/issues/87
 ENV DBUS_SESSION_BUS_ADDRESS=/dev/null SCREEN_RES=1280x1024x24
-WORKDIR /protractor
-ENTRYPOINT ["/protractor.sh"]
+# WORKDIR /protractor
+# ENTRYPOINT ["/protractor.sh"]
+
+
+# credit given to https://github.com/jciolek/docker-protractor-headless for all above lines
+# 
+# basically we only need one line below
+#   FROM webnicer/protractor-headless:latest
+# but i can't use docker-protractor-headless efficiency because this issue
+#   https://github.com/jciolek/docker-protractor-headless/issues/31 
+# so i intend to use the current code in order to avoid future changes
+# 
+
+WORKDIR /
+run ["mkdir", "src"]
+COPY src/* src/
+COPY run-test.sh /
+RUN ["chmod", "+x", "/run-test.sh"]
+ENTRYPOINT ["/run-test.sh"]
