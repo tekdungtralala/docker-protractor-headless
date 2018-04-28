@@ -17,11 +17,12 @@ describe('angularjs homepage todo list', function() {
 });
 
 
-describe('access localhost:8402', function() {
+describe('home page', function() {
   it('should get correct title', function() {
-    browser.driver.get('http://host.docker.internal:8402/admin-lte', 1000);
-    browser.driver.getTitle().then(function(webpagetitle){
-        expect(webpagetitle).toEqual('AdminLTE 2 | Dashboard');
+
+    browser.get('https://angularexampleapp.com/');
+    browser.getTitle().then(function(webpagetitle){
+        expect(webpagetitle).toEqual('Angular Example App');
     });
   });
 });
